@@ -8,6 +8,6 @@ public interface IProductRepository
     Task Update(Product product);
     Task<bool> Remove(int id,int deletedBy);
     IQueryable<Product> GetAll();
-    Task<Category> GetByIdAsync(int id);
-    Task<IEnumerable<Category>> GetByName(string name);
+    Task<Product> GetByIdAsync(int id);
+    Task<IEnumerable<Product>> GetByName(string name);
 }

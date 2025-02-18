@@ -12,8 +12,12 @@ public class SqlUnitOfWork(string connectionString, AppDbContext context) : IUni
 
     public SqlCategoryRepository _sqlCategoryRepository;
 
+    public SqlProductRepository _sqlProductRepository;
+
     public ICategoryRepository CategoryRepository => _sqlCategoryRepository ?? new SqlCategoryRepository(_connectionString, _context);
 
+    public IProductRepository ProductRepository => _sqlProductRepository ?? new SqlProductRepository(_connectionString, _context);
+
     public async Task<int> SaveChanges() => await _context.SaveChangesAsync();
- 
+
 }
