@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-
+﻿
 namespace Application.CQRS.Categories.Command.Responses;
 
 public class CreateCategoryResponse

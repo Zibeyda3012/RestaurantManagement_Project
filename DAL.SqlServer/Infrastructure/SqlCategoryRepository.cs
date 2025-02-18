@@ -2,14 +2,13 @@
 using Dapper;
 using Domain.Entities;
 using Repository.Repositories;
-using System.Transactions;
 
 namespace DAL.SqlServer.Infrastructure;
 
 public class SqlCategoryRepository : BaseSqlRepository, ICategoryRepository
 {
-    private readonly AppDbontext _context;
-    public SqlCategoryRepository(string connectionString, AppDbontext context) : base(connectionString)
+    private readonly AppDbContext _context;
+    public SqlCategoryRepository(string connectionString, AppDbContext context) : base(connectionString)
     {
         _context = context;
     }
@@ -37,7 +36,7 @@ public class SqlCategoryRepository : BaseSqlRepository, ICategoryRepository
 
         using var connection = OpenConnection();
 
-        return await connection.QueryFirstOrDefaultAsync<Category>(sql, id);
+        return await connection.QueryFirstOrDefaultAsync<Category>(sql, new { id });
     }
 
     public async Task<IEnumerable<Category>> GetByName(string name)
@@ -67,7 +66,7 @@ public class SqlCategoryRepository : BaseSqlRepository, ICategoryRepository
 
         using var transaction = connection.BeginTransaction();
 
-        var categoryId = await connection.ExecuteScalarAsync<int?>(checkSql, id, transaction);
+        var categoryId = await connection.ExecuteScalarAsync<int?>(checkSql, new { id }, transaction);
 
         if (!categoryId.HasValue)
             return false;
@@ -87,8 +86,8 @@ public class SqlCategoryRepository : BaseSqlRepository, ICategoryRepository
                     UpdatedDate=GETDATE()
                     WHERE Id=@id";
 
-        using var connection = OpenConnection();    
-        await connection.QueryAsync<Category> (sql, category);  
-                   
+        using var connection = OpenConnection();
+        await connection.QueryAsync<Category>(sql, category);
+
     }
 }

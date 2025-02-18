@@ -3,12 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.SqlServer.Context;
 
-public class AppDbontext : DbContext
+public class AppDbContext : DbContext
 {
-    public AppDbontext(DbContextOptions<AppDbontext> options) : base(options)   
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)   
     {
         
     }
 
     public DbSet<Category> Categories { get; set; }
+
+   
 }

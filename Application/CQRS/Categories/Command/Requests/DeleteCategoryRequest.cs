@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.CQRS.Categories.Command.Requests;
 
-public class CreateCategoryRequest:IRequest<ResponseModel<CreateCategoryResponse>>
+public class DeleteCategoryRequest : IRequest<ResponseModel<DeleteCategoryResponse>>
 {
-    public string Name { get; set; }    
+    public int Id { get; set; }
 }

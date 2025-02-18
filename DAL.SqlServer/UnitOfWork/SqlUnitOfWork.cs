@@ -5,10 +5,10 @@ using Repository.Repositories;
 
 namespace DAL.SqlServer.UnitOfWork;
 
-public class SqlUnitOfWork(string connectionString, AppDbontext context) : IUnitOfWork
+public class SqlUnitOfWork(string connectionString, AppDbContext context) : IUnitOfWork
 {
     private readonly string _connectionString = connectionString;
-    private readonly AppDbontext _context = context;
+    private readonly AppDbContext _context = context;
 
     public SqlCategoryRepository _sqlCategoryRepository;
 
