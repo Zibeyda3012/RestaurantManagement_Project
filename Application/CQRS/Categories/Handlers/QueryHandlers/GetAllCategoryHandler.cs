@@ -10,22 +10,22 @@ namespace Application.CQRS.Categories.Handlers.QueryHandlers;
 public class GetAllCategoryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetAllCategoryRequest, ResponseModelPagination<GetAllCategoryResponse>>
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    public Task<ResponseModelPagination<GetAllCategoryResponse>> Handle(GetAllCategoryRequest request, CancellationToken cancellationToken)
+    public async Task<ResponseModelPagination<GetAllCategoryResponse>> Handle(GetAllCategoryRequest request, CancellationToken cancellationToken)
     {
         var categories = _unitOfWork.CategoryRepository.GetAll();
 
         if (!categories.Any())
         {
-            return Task.FromResult(new ResponseModelPagination<GetAllCategoryResponse>()
+            return new ResponseModelPagination<GetAllCategoryResponse>()
             {
                 Data = null,
                 Errors = [],
                 isSuccess = true
-            });
+            };
         }
 
 
-            var totalCount = categories.Count();
+        var totalCount = categories.Count();
         categories = categories.Skip((request.Page - 1) * request.Limit).Take(request.Limit);
 
         var mappedCategories = new List<GetAllCategoryResponse>();
@@ -46,11 +46,11 @@ public class GetAllCategoryHandler(IUnitOfWork unitOfWork) : IRequestHandler<Get
 
         var response = new Pagination<GetAllCategoryResponse>() { Data = mappedCategories, TotalDataCount = totalCount };
 
-        return Task.FromResult(new ResponseModelPagination<GetAllCategoryResponse>
+        return new ResponseModelPagination<GetAllCategoryResponse>
         {
             Data = response,
             Errors = []
-        });
+        };
 
 
     }

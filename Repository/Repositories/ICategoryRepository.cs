@@ -9,5 +9,5 @@ public interface ICategoryRepository
     Task<bool> Remove(int id, int deletedBy);
     IQueryable<Category> GetAll();
     Task<Category> GetByIdAsyns(int id);
-    Task<IEnumerable<Category>> GetByName(string name); 
+    Task<Category> GetByName(string name); 
 }

@@ -37,5 +37,11 @@ namespace RestaurantManagement_Project.Controllers
             return Ok(await _sender.Send(request));
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Update(UpdateCategoryRequest request)
+        {
+            return Ok(await _sender.Send(request));
+        }
+
     }
 }

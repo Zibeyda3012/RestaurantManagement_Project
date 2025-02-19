@@ -39,7 +39,7 @@ public class SqlCategoryRepository : BaseSqlRepository, ICategoryRepository
         return await connection.QueryFirstOrDefaultAsync<Category>(sql, new { id });
     }
 
-    public async Task<IEnumerable<Category>> GetByName(string name)
+    public async Task<Category> GetByName(string name)
     {
         var sql = @"DECLARE @searchText nvarchar(max)
                     SET @searchText = '%' + @name + '%'
@@ -47,7 +47,7 @@ public class SqlCategoryRepository : BaseSqlRepository, ICategoryRepository
                     WHERE c.[Name] LIKE @searchText AND c.isDeleted=0";
 
         using var connection = OpenConnection();
-        return await connection.QueryAsync<Category>(sql, name);
+        return await connection.QueryFirstOrDefault<Category>(sql,new { name });
 
     }
 

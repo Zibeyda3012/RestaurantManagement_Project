@@ -7,12 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="MediatR" Version="11.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="CQRS\Categories\Handlers\QueryHandlers\" />
+    <Folder Include="CQRS\Customers\" />
+    <Folder Include="CQRS\Products\Commands\Responses\" />
+    <Folder Include="CQRS\Products\Commands\Requests\" />
+    <Folder Include="CQRS\Products\Handlers\" />
+    <Folder Include="CQRS\Products\Queries\Responses\" />
+    <Folder Include="CQRS\Products\Queries\Requests\" />
   </ItemGroup>
 
   <ItemGroup>
