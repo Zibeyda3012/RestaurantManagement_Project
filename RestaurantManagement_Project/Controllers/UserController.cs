@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static Application.CQRS.Users.Handlers.GetById;
+using static Application.CQRS.Users.Handlers.Register;
 
 namespace RestaurantManagement_Project.Controllers
 {
@@ -25,5 +26,12 @@ namespace RestaurantManagement_Project.Controllers
         //    var request = new Query() { Id = id };
         //    return Ok(await _sender.Send(request));
         //}
+
+
+        [HttpPost]
+        public async Task<IActionResult> Regsiter([FromBody] Command request)
+        {
+            return Ok(await _sender.Send(request));
+        }
     }
 }

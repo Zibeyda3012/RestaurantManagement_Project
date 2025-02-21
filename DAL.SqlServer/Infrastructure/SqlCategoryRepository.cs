@@ -47,7 +47,9 @@ public class SqlCategoryRepository : BaseSqlRepository, ICategoryRepository
                     WHERE c.[Name] LIKE @searchText AND c.isDeleted=0";
 
         using var connection = OpenConnection();
-        return await connection.QueryFirstOrDefault<Category>(sql,new { name });
+        //return await connection.QueryFirstOrDefault<Category>(sql,new { name });
+
+        return null;
 
     }
 

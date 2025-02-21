@@ -1,5 +1,7 @@
 ﻿using Application.AutoMapper;
+using Application.PipelineBehaviours;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -17,6 +19,12 @@ public static class DependencyInjection
 
         IMapper mapper = mapperConfig.CreateMapper();
         services.AddSingleton(mapper);
+
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());   
+        
+        services.AddTransient(typeof(IPipelineBehavior<,>),typeof(ValidationPipelineBehavior<,>));  
+
+
         services.AddMediatR(Assembly.GetExecutingAssembly());
         return services;
     }
