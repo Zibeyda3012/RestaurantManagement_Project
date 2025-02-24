@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.CQRS.Users.Handlers;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static Application.CQRS.Users.Handlers.GetById;
 using static Application.CQRS.Users.Handlers.Register;
@@ -28,10 +29,26 @@ namespace RestaurantManagement_Project.Controllers
         //}
 
 
-        [HttpPost]
-        public async Task<IActionResult> Regsiter([FromBody] Command request)
+        [HttpPost("regsiter")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Regsiter([FromBody] Register.Command request)
         {
             return Ok(await _sender.Send(request));
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> Remove([FromQuery] int id)
+        {
+            var request = new Delete.Command() { Id = id };
+            return Ok(await _sender.Send(request));
+        }
+
+        [HttpPut("update")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Update([FromBody] Update.Command request)
+        {
+            return Ok(await _sender.Send(request));
+        }
+
     }
 }

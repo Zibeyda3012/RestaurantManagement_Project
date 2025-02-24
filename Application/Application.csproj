@@ -21,7 +21,6 @@
     <Folder Include="CQRS\Products\Handlers\" />
     <Folder Include="CQRS\Products\Queries\Responses\" />
     <Folder Include="CQRS\Products\Queries\Requests\" />
-    <Folder Include="CQRS\Users\Validator\" />
   </ItemGroup>
 
   <ItemGroup>

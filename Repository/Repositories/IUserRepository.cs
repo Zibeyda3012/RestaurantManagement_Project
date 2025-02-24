@@ -8,7 +8,7 @@ public interface IUserRepository
 
     void Update(User user);   
     
-    Task Remove(int id);   
+    void Remove(int id);   
     
     IQueryable<User> GetAll();
 

@@ -34,7 +34,7 @@ public class SqlUserRepository : IUserRepository
         await _context.Users.AddAsync(user);
     }
 
-    public async Task Remove(int id)
+    public void Remove(int id)
     {
         var currentUser = _context.Users.FirstOrDefault(u => u.Id == id);
         currentUser.IsDeleted = true;
