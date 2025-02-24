@@ -25,7 +25,7 @@ namespace RestaurantManagement_Project.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery]GetAllCategoryRequest request)
+        public async Task<IActionResult> GetAll([FromQuery] GetAllCategoryRequest request)
         {
             return Ok(await _sender.Send(request));
         }
@@ -40,6 +40,13 @@ namespace RestaurantManagement_Project.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(UpdateCategoryRequest request)
         {
+            return Ok(await _sender.Send(request));
+        }
+
+        [HttpGet("getByName")]
+        public async Task<IActionResult> GetByName([FromQuery]string name)
+        {
+            var request = new GetByNameCategoryRequest() { Name = name };
             return Ok(await _sender.Send(request));
         }
 

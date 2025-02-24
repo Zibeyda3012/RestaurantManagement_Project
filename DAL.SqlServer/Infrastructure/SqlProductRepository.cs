@@ -40,7 +40,7 @@ public class SqlProductRepository : BaseSqlRepository, IProductRepository
         return await connection.QueryFirstOrDefaultAsync<Product>(sql, new { id });
     }
 
-    public async Task<IEnumerable<Product>> GetByName(string name)
+    public async Task<Product> GetByName(string name)
     {
         var sql = @"DECLARE @SearchText nvarchar(max)
                     SET @SearchText = '%' + @name + '%'
@@ -48,7 +48,7 @@ public class SqlProductRepository : BaseSqlRepository, IProductRepository
                     WHERE p.[Name] LIKE @SearchText AND isDeleted=0";
 
         using var connection = OpenConnection();
-        return await connection.QueryAsync<Product>(sql, name);
+        return await connection.QueryFirstOrDefaultAsync<Product>(sql, new { name = name });
     }
 
     public async Task<bool> Remove(int id, int deletedBy)
@@ -59,7 +59,7 @@ public class SqlProductRepository : BaseSqlRepository, IProductRepository
         var sql = @"UPDATE Products
                     SET IsDeleted=1,
                     DeletedBy=@deletedBy,
-                    DEletedDate=GETDATE()
+                    DeletedDate=GETDATE()
                     Where Id=@id";
 
         using var connection = OpenConnection();
@@ -81,6 +81,7 @@ public class SqlProductRepository : BaseSqlRepository, IProductRepository
     {
         var sql = @"UPDATE Products
                     SET Name=@Name,
+                    Price=@Price,
                     UpdatedBy=@UpdatedBy,
                     UpdatedDate=GETDATE()
                     WHERE Id=@id";
@@ -88,4 +89,7 @@ public class SqlProductRepository : BaseSqlRepository, IProductRepository
         using var connection = OpenConnection();
         await connection.QueryAsync<Product>(sql, product);
     }
+
+
+
 }

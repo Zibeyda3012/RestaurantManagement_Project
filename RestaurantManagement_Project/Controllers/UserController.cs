@@ -43,12 +43,12 @@ namespace RestaurantManagement_Project.Controllers
             return Ok(await _sender.Send(request));
         }
 
-        [HttpPut("update")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Update([FromBody] Update.Command request)
-        {
-            return Ok(await _sender.Send(request));
-        }
+        //[HttpPut("update")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //public async Task<IActionResult> Update([FromBody] Update.Command request)
+        //{
+        //    return Ok(await _sender.Send(request));
+        //}
 
     }
 }

@@ -9,5 +9,5 @@ public interface IProductRepository
     Task<bool> Remove(int id,int deletedBy);
     IQueryable<Product> GetAll();
     Task<Product> GetByIdAsync(int id);
-    Task<IEnumerable<Product>> GetByName(string name);
+    Task<Product> GetByName(string name);
 }

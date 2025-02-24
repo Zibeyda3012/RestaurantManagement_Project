@@ -47,9 +47,7 @@ public class SqlCategoryRepository : BaseSqlRepository, ICategoryRepository
                     WHERE c.[Name] LIKE @searchText AND c.isDeleted=0";
 
         using var connection = OpenConnection();
-        //return await connection.QueryFirstOrDefault<Category>(sql,new { name });
-
-        return null;
+        return await connection.QueryFirstOrDefaultAsync<Category>(sql, new { name });
 
     }
 
@@ -61,7 +59,7 @@ public class SqlCategoryRepository : BaseSqlRepository, ICategoryRepository
         var sql = @"UPDATE Categories
                     SET IsDeleted=1,
                     DeletedBy=@deletedBy,
-                    DEletedDate=GETDATE()
+                    DeletedDate=GETDATE()
                     Where Id=@id";
 
         using var connection = OpenConnection();
