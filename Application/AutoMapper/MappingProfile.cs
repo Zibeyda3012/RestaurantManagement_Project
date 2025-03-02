@@ -1,4 +1,7 @@
-﻿using Application.CQRS.Users.DTOs;
+﻿using Application.CQRS.Products.Commands.Requests;
+using Application.CQRS.Products.Commands.Responses;
+using Application.CQRS.Products.Queries.Responses;
+using Application.CQRS.Users.DTOs;
 using AutoMapper;
 using Domain.Entities;
 using System.Data;
@@ -10,10 +13,20 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<User,GetByIdDTO>().ReverseMap();
-        CreateMap<Command,User>().ReverseMap(); 
-        CreateMap<User,RegisterDTO>().ReverseMap();
+        CreateMap<User, GetByIdDTO>().ReverseMap();
+        CreateMap<Command, User>().ReverseMap();
+        CreateMap<User, RegisterDTO>().ReverseMap();
 
         CreateMap<User, UpdateDTO>().ReverseMap();
+
+        CreateMap<Product, CreateProductRequest>().ReverseMap();
+        CreateMap<CreateProductResponse, Product>().ReverseMap();
+
+        CreateMap<Product, UpdateProductRequest>().ReverseMap();
+        CreateMap<UpdateProductResponse, Product>().ReverseMap();
+
+        CreateMap<GetAllProductResponse, Product>().ReverseMap();
+        CreateMap<GetByIdProductResponse, Product>().ReverseMap();
+        CreateMap<GetByNameProductResponse, Product>().ReverseMap();
     }
 }
