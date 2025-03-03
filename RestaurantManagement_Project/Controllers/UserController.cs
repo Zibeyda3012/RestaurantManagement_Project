@@ -30,7 +30,7 @@ namespace RestaurantManagement_Project.Controllers
 
 
         [HttpPost("regsiter")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+
         public async Task<IActionResult> Regsiter([FromBody] Register.Command request)
         {
             return Ok(await _sender.Send(request));
@@ -44,11 +44,17 @@ namespace RestaurantManagement_Project.Controllers
         }
 
         //[HttpPut("update")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
+
         //public async Task<IActionResult> Update([FromBody] Update.Command request)
         //{
         //    return Ok(await _sender.Send(request));
         //}
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] Application.CQRS.Users.Handlers.Login.LoginRequest request)
+        {
+            return(Ok(await _sender.Send(request)));    
+        }
 
     }
 }
