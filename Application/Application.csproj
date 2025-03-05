@@ -17,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS\Customers\" />
+    <Folder Include="CQRS\Customers\Handlers\QueryHandlers\" />
+    <Folder Include="CQRS\Customers\Queries\Responses\" />
+    <Folder Include="CQRS\Customers\Queries\Requests\" />
     <Folder Include="CQRS\Products\Commands\Responses\" />
     <Folder Include="CQRS\Products\Commands\Requests\" />
     <Folder Include="CQRS\Products\Handlers\" />
