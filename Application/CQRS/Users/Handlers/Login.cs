@@ -1,4 +1,5 @@
-﻿using Application.Services;
+﻿using Application.CQRS.Users.DTOs;
+using Application.Services;
 using Common.Exceptions;
 using Common.GlobalResponse.Generics;
 using Common.Security;
@@ -13,18 +14,18 @@ namespace Application.CQRS.Users.Handlers;
 
 public class Login
 {
-    public class LoginRequest : IRequest<ResponseModel<string>>
+    public class LoginRequest : IRequest<ResponseModel<LoginResponseDTO>>
     {
         public string Email { get; set; }
         public string Password { get; set; }
     }
 
-    public sealed class Handler(IUnitOfWork unitOfWork, IConfiguration configuration) : IRequestHandler<LoginRequest, ResponseModel<string>>
+    public sealed class Handler(IUnitOfWork unitOfWork, IConfiguration configuration) : IRequestHandler<LoginRequest, ResponseModel<LoginResponseDTO>>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IConfiguration _configuration = configuration;
 
-        public async Task<ResponseModel<string>> Handle(LoginRequest request, CancellationToken cancellationToken)
+        public async Task<ResponseModel<LoginResponseDTO>> Handle(LoginRequest request, CancellationToken cancellationToken)
         {
             User currentUser = await _unitOfWork.UserRepository.GetByEmailAsync(request.Email);
 
@@ -44,9 +45,27 @@ public class Login
             JwtSecurityToken token = TokenService.CreateToken(authClaim, _configuration);
             string tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return new ResponseModel<string>
+            string refreshTokenString = TokenService.GenerateRefreshToken();
+
+            RefreshToken refreshToken = new()
             {
-                Data = tokenString,
+                Token = refreshTokenString,
+                UserId = currentUser.Id,
+                ExpirationDate = DateTime.Now.AddDays(Double.Parse(_configuration.GetRequiredSection("JWT:RefreshTokenExpirationDays").Value!))
+            };
+
+            await _unitOfWork.RefreshTokenRepository.SaveRefreshToken(refreshToken);
+            await _unitOfWork.SaveChanges();
+
+            LoginResponseDTO response = new LoginResponseDTO()
+            {
+                AccessToken = tokenString,
+                RefreshToken = refreshTokenString
+            };
+
+            return new ResponseModel<LoginResponseDTO>
+            {
+                Data = response
             };
         }
     }

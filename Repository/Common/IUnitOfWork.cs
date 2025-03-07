@@ -12,5 +12,7 @@ public interface IUnitOfWork
 
     public ICustomerRepository CustomerRepository { get; }
 
+    public IRefreshTokenRepository RefreshTokenRepository { get; }
+
     Task<int> SaveChanges();
 }

@@ -16,6 +16,8 @@ public class SqlUnitOfWork(string connectionString, AppDbContext context) : IUni
 
     public SqlUserRepository _sqlUserRepository;
 
+    public SqlRefreshTokenRepository _sqlRefreshTokenRepository;
+
     public IUserRepository UserRepository => _sqlUserRepository ?? new SqlUserRepository(_context);
 
     public ICategoryRepository CategoryRepository => _sqlCategoryRepository ?? new SqlCategoryRepository(_connectionString, _context);
@@ -23,6 +25,8 @@ public class SqlUnitOfWork(string connectionString, AppDbContext context) : IUni
     public IProductRepository ProductRepository => _sqlProductRepository ?? new SqlProductRepository(_connectionString, _context);
 
     public ICustomerRepository CustomerRepository => throw new NotImplementedException();
+
+    public IRefreshTokenRepository RefreshTokenRepository => _sqlRefreshTokenRepository ?? new SqlRefreshTokenRepository(_context);
 
     public async Task<int> SaveChanges() => await _context.SaveChangesAsync();
 
