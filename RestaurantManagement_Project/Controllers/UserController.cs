@@ -1,5 +1,6 @@
 ﻿using Application.CQRS.Users.Handlers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Application.CQRS.Users.Handlers.GetById;
 using static Application.CQRS.Users.Handlers.Register;
@@ -30,6 +31,7 @@ namespace RestaurantManagement_Project.Controllers
 
 
         [HttpPost("regsiter")]
+        [AllowAnonymous]
 
         public async Task<IActionResult> Regsiter([FromBody] Register.Command request)
         {
@@ -51,6 +53,7 @@ namespace RestaurantManagement_Project.Controllers
         //}
 
         [HttpPost("Login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] Application.CQRS.Users.Handlers.Login.LoginRequest request)
         {
             return(Ok(await _sender.Send(request)));    
