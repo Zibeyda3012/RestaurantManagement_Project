@@ -1,5 +1,6 @@
 ﻿using Application.CQRS.Users.DTOs;
 using Application.Services;
+using Application.Services.LogService;
 using Common.Exceptions;
 using Common.GlobalResponse.Generics;
 using Common.Security;
@@ -20,20 +21,31 @@ public class Login
         public string Password { get; set; }
     }
 
-    public sealed class Handler(IUnitOfWork unitOfWork, IConfiguration configuration) : IRequestHandler<LoginRequest, ResponseModel<LoginResponseDTO>>
+    public sealed class Handler(IUnitOfWork unitOfWork, IConfiguration configuration, ILoggerService loggerService) : IRequestHandler<LoginRequest, ResponseModel<LoginResponseDTO>>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IConfiguration _configuration = configuration;
+        private readonly ILoggerService _loggerService = loggerService;
 
         public async Task<ResponseModel<LoginResponseDTO>> Handle(LoginRequest request, CancellationToken cancellationToken)
         {
+            _loggerService.LogInfo($"{request.Email} ile sistemə giriş etmək istədi");
+
             User currentUser = await _unitOfWork.UserRepository.GetByEmailAsync(request.Email);
 
-            if (currentUser == null) throw new BadRequestException("User with provided email doesn't exist");
+            if (currentUser == null)
+            {
+                _loggerService.LogWarning($"{request.Email} ile istifadeci movcud deyildir");
+                throw new BadRequestException("User with provided email doesn't exist"); 
+            }
 
             var hashedPassword = PasswordHasher.ComputePasswordToSha256Has(request.Password);
 
-            if (hashedPassword != currentUser.PasswordHash) throw new BadRequestException("Wrong Password");
+            if (hashedPassword != currentUser.PasswordHash) 
+            {
+                _loggerService.LogWarning("Yalnis parol daxil edildi");
+                throw new BadRequestException("Wrong Password");
+            }
 
             List<Claim> authClaim = [
                 new Claim(ClaimTypes.NameIdentifier,currentUser.Id.ToString()),
@@ -63,6 +75,8 @@ public class Login
                 AccessToken = tokenString,
                 RefreshToken = refreshTokenString
             };
+
+            _loggerService.LogInfo($"{request.Email} sisteme daxil oldu");
 
             return new ResponseModel<LoginResponseDTO>
             {

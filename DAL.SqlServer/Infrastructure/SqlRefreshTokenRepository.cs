@@ -16,11 +16,11 @@ public class SqlRefreshTokenRepository : IRefreshTokenRepository
 
     public Task<RefreshToken> GetStoredRefreshToken(string refreshToken)
     {
-        return _context.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+        return _context.RefreshToken.FirstOrDefaultAsync(rt => rt.Token == refreshToken);
     }
 
     public async Task SaveRefreshToken(RefreshToken refreshToken)
     {
-        await _context.RefreshTokens.AddAsync(refreshToken);
+        await _context.RefreshToken.AddAsync(refreshToken);
     }
 }

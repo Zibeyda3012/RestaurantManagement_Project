@@ -3,12 +3,12 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Application.CQRS.Users.Handlers.GetById;
-using static Application.CQRS.Users.Handlers.Register;
 
 namespace RestaurantManagement_Project.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController(ISender sender) : ControllerBase
     {
         private readonly ISender _sender = sender;

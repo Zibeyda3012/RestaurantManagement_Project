@@ -1,7 +1,9 @@
 using Application;
+using Application.Security;
 using DAL.SqlServer;
 using Microsoft.OpenApi.Models;
 using RestaurantManagement.Middlewares;
+using RestaurantManagement_Project.Infrastructure;
 using RestaurantManagement_Project.Middlewares;
 using RestaurantManagement_Project.Services;
 
@@ -40,6 +42,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<IUserContext, HttpUserContext>();
+
 builder.Services.AddAuthenticationService(builder.Configuration);
 
 
@@ -62,9 +66,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseCors();
-app.UseMiddleware<CorsMiddleware>();    
+app.UseMiddleware<CorsMiddleware>();
 
-app.UseMiddleware<ExceptionHandlerMiddleware>();    
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.MapControllers();
 

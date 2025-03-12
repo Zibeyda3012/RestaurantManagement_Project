@@ -1,10 +1,12 @@
 ﻿using Application.AutoMapper;
 using Application.PipelineBehaviours;
 using Application.Services.BackgroundServices;
+using Application.Services.LogService;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using System.Reflection;
 
 namespace Application;
@@ -20,6 +22,17 @@ public static class DependencyInjection
 
         IMapper mapper = mapperConfig.CreateMapper();
         services.AddSingleton(mapper);
+
+        #region Serilog
+
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.File($@"log\appLog.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+
+        services.AddScoped<ILoggerService,LoggerService>(); 
+
+        #endregion
+
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());   
         
