@@ -20,5 +20,7 @@ public class AppDbContext : DbContext
 
     public DbSet<RefreshToken> RefreshToken { get; set; }  
 
+    public DbSet<Car> Cars { get; set; }    
+
 
 }

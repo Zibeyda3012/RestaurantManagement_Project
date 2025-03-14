@@ -2,6 +2,7 @@
 using Application.PipelineBehaviours;
 using Application.Services.BackgroundServices;
 using Application.Services.LogService;
+using Application.StrategyPattern;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
@@ -32,6 +33,10 @@ public static class DependencyInjection
         services.AddScoped<ILoggerService,LoggerService>(); 
 
         #endregion
+
+
+        services.AddScoped<ICarStrategy,CarStrategy>();    
+        services.AddScoped<ICarContext,CarContext>();    
 
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());   

@@ -14,5 +14,7 @@ public interface IUnitOfWork
 
     public IRefreshTokenRepository RefreshTokenRepository { get; }
 
+    public ICarRepository CarRepository { get; }
+
     Task<int> SaveChanges();
 }
