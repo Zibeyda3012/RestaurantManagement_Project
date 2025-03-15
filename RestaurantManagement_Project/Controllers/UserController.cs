@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Application.CQRS.Users.Handlers.GetById;
+using static Application.CQRS.Users.Handlers.RefreshTokenService;
 
 namespace RestaurantManagement_Project.Controllers
 {
@@ -56,7 +57,14 @@ namespace RestaurantManagement_Project.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] Application.CQRS.Users.Handlers.Login.LoginRequest request)
         {
-            return(Ok(await _sender.Send(request)));    
+            return (Ok(await _sender.Send(request)));
+        }
+
+        [HttpPost("RefreshToken")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            return Ok(await _sender.Send(request));
         }
 
     }
